@@ -19,3 +19,15 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Build project
+        run: mvn clean install
+
+      - name: Login docker
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t dgomes04/api-mang-church .
+
+      - name: Push Docker image
+        run: docker push dgomes04/api-mang-church
