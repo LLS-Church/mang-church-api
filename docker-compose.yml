@@ -1,0 +1,37 @@
+version: '3.8'
+
+networks:
+    gv-network:
+        driver: bridge
+volumes:
+    prometheus_data:
+    grafana:
+
+services:
+    postgres:
+        image: postgres
+        container_name: church_postgres
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: church
+        ports:
+            - "5432:5432"
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        volumes:
+            - prometheus_data:/prometheus
+            - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+            - prometheus_data:/prometheus
+        networks:
+            - gv-network
+        ports:
+            - "9090:9090"
+    grafana:
+        container_name: grafana
+        image: grafana/grafana:latest
+        ports:
+            - 3000:3000
+        networks:
+            - gv-network
