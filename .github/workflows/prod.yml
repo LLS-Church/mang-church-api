@@ -31,3 +31,15 @@ jobs:
 
       - name: Push Docker image
         run: docker push dgomes04/api-mang-church
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull Docker image
+        run: docker pull dgomes04/api-mang-church:latest
+      - name: Remove old Docker container
+        run: docker rm -f api-mang-church
+      - name: Run Docker container
+        run: docker run -d -p 8080:8080 -e DATABASE_URL=${{ secrets.DATABASE_URL }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} --name api-mang-church dgomes04/api-mang-church:latest
+
