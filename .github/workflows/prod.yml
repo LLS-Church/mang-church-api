@@ -60,7 +60,7 @@ jobs:
         run: docker push dgomes04/api-mang-church
 
   deploy:
-    needs: build
+    needs: pre-deploy
     runs-on: self-hosted
     steps:
       - name: Pull Docker image
