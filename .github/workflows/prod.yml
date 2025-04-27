@@ -41,5 +41,5 @@ jobs:
       - name: Remove old Docker container
         run: docker rm -f api-mang-church
       - name: Run Docker container
-        run: docker run -d -p 8080:8080 -e DATABASE_URL=${{ secrets.DATABASE_URL }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} --name api-mang-church dgomes04/api-mang-church:latest
+        run: docker run -d -p 8080:8080 -e DATABASE_URL=${{ secrets.DATABASE_URL }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}' --name api-mang-church dgomes04/api-mang-church:latest
 
