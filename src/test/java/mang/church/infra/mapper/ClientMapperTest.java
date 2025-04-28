@@ -30,13 +30,13 @@ class ClientMapperTest {
     @Test
     @DisplayName("Should map ClientEntity to ClientModel")
     void shouldMapClientEntityToClientModel() {
-        var clientEntity = ClientEntity.builder()
-                .email("email")
-                .clientId(1L)
-                .createdAt(LocalDateTime.now())
-                .password("1231223")
-                .username("userna,e")
-                .build();
+        var clientEntity = new ClientEntity();
+        clientEntity.setEmail("email");
+        clientEntity.setClientId(1L);
+        clientEntity.setCreatedAt(LocalDateTime.now());
+        clientEntity.setPassword("1231223");
+        clientEntity.setUsername("username");
+
         var clientModel = mapper.toModel(clientEntity);
 
         assertNotNull(clientModel);
