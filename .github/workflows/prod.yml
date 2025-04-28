@@ -6,6 +6,7 @@ on:
       - main
 jobs:
   build:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -20,6 +21,7 @@ jobs:
       - name: Build project
         run: mvn clean install
   sonar:
+    name: SonarQube Analysis
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -41,9 +43,10 @@ jobs:
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
   pre-deploy:
+    name: Pre-deploy
     runs-on: ubuntu-latest
     needs: sonar
     steps:
@@ -60,6 +63,7 @@ jobs:
         run: docker push dgomes04/api-mang-church
 
   deploy:
+    name: Deploy to Production
     needs: pre-deploy
     runs-on: self-hosted
     steps:
